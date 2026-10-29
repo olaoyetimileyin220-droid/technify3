@@ -277,7 +277,9 @@ footer a:hover{color:#fff}
 
 /* Responsive refinements: comfortable spacing, no sideways scrolling, and a non-sticky search card. */
 *,*::before,*::after{box-sizing:border-box}
-html,body{max-width:100%;overflow-x:clip}
+html,body{max-width:100%;overflow-x:hidden}
+html{overscroll-behavior-x:none}
+body{touch-action:pan-y pinch-zoom;position:relative}
 .search-wrap,.search-box,.search{position:relative;max-width:100%}
 .search-wrap.stuck{position:relative!important;top:auto!important;left:auto!important;right:auto!important;width:100%;}
 .search-ph{display:none!important;height:0!important}
@@ -455,6 +457,12 @@ html,body{max-width:100%;overflow-x:clip}
 .nav:not(.scrolled) .btn-t.solid{background:#fff;color:var(--ink);border-color:#fff}
 .nav:not(.scrolled) .btn-t.solid::before{background:var(--ink)}
 .nav:not(.scrolled) .btn-t.solid:hover{color:#fff}
+/* mobile menu: Buy / Sell / Swap stack vertically */
+.sub.m-acc{display:block;padding:.4rem 0 .8rem}
+.sub.m-acc a,.m-acc .sub a{display:block;width:100%;font-family:var(--sans);font-size:1.02rem;padding:.65rem .2rem;color:var(--graphite)}
+.sub.m-acc a+a,.m-acc .sub a+a{border-top:1px solid var(--line)}
+/* Bootstrap g-5 gutters are wider than the container padding and cause sideways wobble on phones */
+@media(max-width:991px){.row.g-5,.row.g-lg-5{--bs-gutter-x:1.5rem;--bs-gutter-y:2rem}}
 </style>
 </head>
 <body id="top">
