@@ -156,6 +156,8 @@ footer a:hover{color:#fff}
 /* full-screen product showcase */
 #productDetail{--bs-modal-bg:#f8f8f6;--bs-modal-border-width:0}
 #productDetail{padding:0!important;overflow:hidden}
+#productDetail.fade{transition:opacity .12s ease-out}
+#productDetail.fade .product-detail-dialog{transition:transform .12s ease-out;transform:none}
 .product-detail-dialog{position:absolute;inset:0;width:100vw;max-width:none;height:100vh;height:100dvh;margin:0!important;transform:none!important}
 .product-detail-dialog .modal-content{width:100%;height:100vh;height:100dvh;min-height:100%;border:0;border-radius:0;overflow-y:auto;background:#f8f8f6}
 .product-detail-dialog .modal-content{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
@@ -708,11 +710,17 @@ new Swiper('#gadgets',{slidesPerView:1.15,spaceBetween:16,pagination:{el:'.swipe
 // Open a full-screen product view for Just in on every screen, and for the featured phones on mobile.
 const detailModal=bootstrap.Modal.getOrCreateInstance($('productDetail'));
 let productPageScrollY=0,productBodyStyles=null;
-$('productDetail').addEventListener('shown.bs.modal',()=>{
+$('productDetail').addEventListener('show.bs.modal',()=>{
+  $('productDetail').style.transition='opacity .12s ease-out';
+  $('productDetail').querySelector('.product-detail-dialog').style.transition='transform .12s ease-out';
   productPageScrollY=window.scrollY;
   const body=document.body;
   productBodyStyles={position:body.style.position,top:body.style.top,left:body.style.left,right:body.style.right,width:body.style.width,overflow:body.style.overflow};
   body.style.position='fixed';body.style.top=`-${productPageScrollY}px`;body.style.left='0';body.style.right='0';body.style.width='100%';body.style.overflow='hidden';
+});
+$('productDetail').addEventListener('hide.bs.modal',()=>{
+  $('productDetail').style.transition='opacity .32s ease-in';
+  $('productDetail').querySelector('.product-detail-dialog').style.transition='transform .32s ease-in';
 });
 $('productDetail').addEventListener('hidden.bs.modal',()=>{
   const body=document.body;
