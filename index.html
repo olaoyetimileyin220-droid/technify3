@@ -153,6 +153,25 @@ footer a:hover{color:#fff}
 .slide-card .price{width:100%}
 .slide-card .buy-btn{background:var(--ink);border-color:var(--ink);color:#fff}
 .slide-card .buy-btn:hover{background:#fff;color:var(--ink)}
+/* full-screen product showcase */
+#productDetail{--bs-modal-bg:#f8f8f6;--bs-modal-border-width:0}
+.product-detail-dialog{width:100%;max-width:none;height:100%;margin:0}
+.product-detail-dialog .modal-content{height:100%;border:0;border-radius:0;overflow:auto;background:#f8f8f6}
+.product-detail-view{min-height:100%;display:grid;grid-template-columns:minmax(0,1.12fr) minmax(360px,.88fr)}
+.product-detail-image{height:100%;min-height:100vh;position:relative;display:grid;place-items:center;overflow:hidden;padding:0;background:#fff}
+.product-detail-image img{position:relative;z-index:1;width:100%;height:100%;min-height:100vh;max-height:100vh;object-fit:cover;filter:none;background:#fff}
+.product-detail-copy{position:relative;padding:clamp(2.5rem,7vw,7rem);display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
+.product-detail-copy .eyebrow{letter-spacing:.18em;font-size:.72rem!important;font-weight:600;color:#777!important}
+.product-detail-copy h2{font-size:clamp(3rem,5.5vw,5.8rem);line-height:.94;margin:0 0 1.5rem;max-width:10ch}
+.product-detail-specs{display:flex;flex-wrap:wrap;gap:.65rem;color:#62625e;line-height:1.4;font-size:.95rem;max-width:38rem;margin-bottom:2rem}
+.product-detail-specs span{display:inline-flex;align-items:center;border:1px solid #deded9;border-radius:999px;padding:.58rem .85rem;background:#fff;color:#42423f}
+.product-detail-price{font-family:var(--serif);font-size:clamp(2.6rem,4vw,3.6rem);line-height:1;margin-bottom:1.8rem!important}
+#productDetailBuy{min-width:200px;justify-content:center;padding:1rem 1.5rem}
+.product-detail-close{position:fixed;right:1.5rem;top:1.5rem;z-index:5;width:48px;height:48px;padding:0;border:0;border-radius:50%;background:#fff;color:#141414;font:300 2rem/1 var(--sans);display:grid;place-items:center;opacity:1;box-shadow:0 4px 20px rgba(0,0,0,.14);cursor:pointer}
+.product-detail-close:hover{transform:rotate(90deg);transition:transform .25s}
+.product-card-trigger{cursor:pointer}
+.product-card-trigger:focus-visible{outline:3px solid var(--ink);outline-offset:4px}
+@media(max-width:767px){.product-detail-view{grid-template-columns:1fr;align-content:start}.product-detail-image{height:48vh;min-height:320px;padding:0}.product-detail-image img{height:48vh;min-height:320px;max-height:48vh;object-fit:cover}.product-detail-copy{padding:2rem 1.4rem 2.5rem}.product-detail-copy h2{font-size:clamp(2.8rem,12vw,4rem);margin-bottom:1rem}.product-detail-specs{font-size:.88rem;gap:.5rem;margin-bottom:1.4rem}.product-detail-specs span{padding:.5rem .7rem}.product-detail-price{font-size:2.8rem!important;margin-bottom:1.4rem!important}.product-detail-close{right:1rem;top:1rem;width:42px;height:42px;font-size:1.8rem}}
 /* glass search card: frosted white so it stands apart from the photo */
 .search{background:rgba(255,255,255,.8);-webkit-backdrop-filter:blur(24px) saturate(1.8);backdrop-filter:blur(24px) saturate(1.8);border:1px solid rgba(255,255,255,.75);box-shadow:0 24px 60px rgba(0,0,0,.35),inset 0 1px 0 #fff;overflow:hidden}
 .search .f{border-right-color:rgba(20,20,20,.12)}
@@ -639,6 +658,14 @@ body{touch-action:pan-y pinch-zoom;position:relative}
   </div>
 </footer>
 
+<div class="modal fade" id="productDetail" tabindex="-1" aria-hidden="true" aria-labelledby="productDetailTitle"><div class="modal-dialog product-detail-dialog"><div class="modal-content">
+  <button type="button" class="product-detail-close" data-bs-dismiss="modal" aria-label="Close product details"><span aria-hidden="true">×</span></button>
+  <div class="product-detail-view"><div class="product-detail-image"><img id="productDetailImage" alt=""></div><div class="product-detail-copy">
+    <div class="eyebrow text-secondary text-uppercase small mb-3">Device details</div><h2 id="productDetailTitle"></h2><p id="productDetailSpecs" class="product-detail-specs"></p>
+    <div id="productDetailPrice" class="product-detail-price mb-4"></div><button id="productDetailBuy" type="button" class="btn-t solid">Add to cart</button>
+  </div></div>
+</div></div></div>
+
 <div class="modal fade" id="privacy" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable modal-lg"><div class="modal-content" style="border-radius:8px">
   <div class="modal-header"><h3 class="modal-title" style="font-size:2rem">Privacy policy</h3><button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
   <div class="modal-body" style="line-height:1.7;color:#444">
@@ -673,8 +700,56 @@ const NEW=[
  ['iPhone 14 Pro','256GB · Deep Purple',820000,'photo-1678685888221-cda773a3dcdb'],
  ['Galaxy S23','256GB · Cream',620000,'photo-1598327105666-5b89351aff97'],
  ['iPhone 12','128GB · Blue · 88% battery',430000,'photo-1592750475338-74b7b21085ab']];
-$('slides').innerHTML=NEW.map(p=>`<div class="swiper-slide"><div class="slide-card"><div class="im"><img loading="lazy" src="https://images.unsplash.com/${p[3]}?auto=format&fit=crop&w=700&q=75" alt="${p[0]}"></div><div class="tx"><div class="fw-medium">${p[0]}</div><div class="small text-secondary mb-3">${p[1]}</div><div class="buy-stack"><button class="price" data-name="${p[0]}" data-price="${p[2]}">${fmt(p[2])}</button><button class="buy-btn" data-name="${p[0]}" data-price="${p[2]}">Buy</button></div></div></div></div>`).join('');
+$('slides').innerHTML=NEW.map(p=>`<div class="swiper-slide"><div class="slide-card product-card-trigger" role="group" tabindex="0" aria-label="${p[0]} product card; press Enter to view details"><div class="im"><img loading="lazy" src="https://images.unsplash.com/${p[3]}?auto=format&fit=crop&w=700&q=75" alt="${p[0]}"></div><div class="tx"><div class="fw-medium">${p[0]}</div><div class="small text-secondary mb-3">${p[1]}</div><div class="buy-stack"><button class="price" data-name="${p[0]}" data-price="${p[2]}">${fmt(p[2])}</button><button class="buy-btn" data-name="${p[0]}" data-price="${p[2]}">Buy</button></div></div></div></div>`).join('');
 new Swiper('#gadgets',{slidesPerView:1.15,spaceBetween:16,pagination:{el:'.swiper-pagination',clickable:true},navigation:{nextEl:'.swiper-button-next',prevEl:'.swiper-button-prev'},breakpoints:{640:{slidesPerView:2.2},992:{slidesPerView:3.2}}});
+
+// Open a full-screen product view for Just in on every screen, and for the featured phones on mobile.
+const detailModal=bootstrap.Modal.getOrCreateInstance($('productDetail'));
+const openProductDetail=card=>{
+  const title=card.querySelector('h3,.fw-medium')?.textContent.trim()||'';
+  const image=card.querySelector('img');
+  const specs=card.querySelector('small,.small.text-secondary')?.textContent.trim()||'';
+  const buy=card.querySelector('[data-name][data-price]');
+  if(!title||!image||!buy)return;
+  $('productDetailTitle').textContent=title;
+  $('productDetailImage').src=image.currentSrc||image.src;
+  $('productDetailImage').alt=image.alt||title;
+  $('productDetailSpecs').replaceChildren(...specs.split('·').map(spec=>{
+    const item=document.createElement('span');item.textContent=spec.trim();return item;
+  }).filter(item=>item.textContent));
+  $('productDetailPrice').textContent=fmt(+buy.dataset.price);
+  const detailBuy=$('productDetailBuy');
+  detailBuy.dataset.name=buy.dataset.name;
+  detailBuy.dataset.price=buy.dataset.price;
+  detailBuy.dataset.open='1';
+  detailModal.show();
+};
+$('gadgets').addEventListener('click',e=>{
+  if(e.target.closest('button,a'))return;
+  const card=e.target.closest('.slide-card');
+  if(card)openProductDetail(card);
+});
+$('buy').addEventListener('click',e=>{
+  if(!matchMedia('(max-width: 991px)').matches||e.target.closest('button,a'))return;
+  const card=e.target.closest('.cell');
+  if(card)openProductDetail(card);
+});
+$('buy').querySelectorAll('.cell').forEach(card=>{card.classList.add('product-card-trigger');card.setAttribute('role','group');});
+const setMobileProductCardTabStops=()=>$('buy').querySelectorAll('.cell').forEach(card=>{
+  if(matchMedia('(max-width: 991px)').matches)card.setAttribute('tabindex','0');
+  else card.removeAttribute('tabindex');
+});
+setMobileProductCardTabStops();addEventListener('resize',setMobileProductCardTabStops,{passive:true});
+$('buy').addEventListener('keydown',e=>{
+  if((e.key==='Enter'||e.key===' ')&&matchMedia('(max-width: 991px)').matches&&!e.target.closest('button,a')){
+    const card=e.target.closest('.cell');if(card){e.preventDefault();openProductDetail(card)}
+  }
+});
+$('gadgets').addEventListener('keydown',e=>{
+  if((e.key==='Enter'||e.key===' ')&&!e.target.closest('button,a')){
+    const card=e.target.closest('.slide-card');if(card){e.preventDefault();openProductDetail(card)}
+  }
+});
 
 $('searchForm').onsubmit=e=>{e.preventDefault();
   const q=`${$('model').value}, ${$('storage').value}`;
